@@ -285,6 +285,7 @@ public class JsonUtil {
      * 解析对象为Json字符串
      *
      * @param object 要转换的对象
+     * @param dateFormatPattern 日期格式，如"yyyy年MM月dd日 HH时mm分ss秒"
      * @return 返回对象的json字符串
      */
     public static String toJsonWithDateFormat(Object object, String dateFormatPattern) {
