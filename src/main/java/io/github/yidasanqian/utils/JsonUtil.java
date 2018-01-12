@@ -210,12 +210,11 @@ public class JsonUtil {
     }
 
     /**
-     * 按指定的Type解析json字符串到List<T>
+     * 按指定的Type解析json字符串到List
      *
      * @param json 要解析的json字符串
      * @param type {@link Type}
-     * @param <T>  具体类型
-     * @return 返回List<T>
+     * @return 返回List
      */
     public static <T> List<T> toList(String json, final Type type) {
         List<T> result = null;
