@@ -3,6 +3,9 @@ package io.github.yidasanqian.utils;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+/**
+ * @author Linyu Chen
+ */
 public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 
     private final Type type;

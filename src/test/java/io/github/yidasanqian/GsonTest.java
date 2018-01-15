@@ -42,7 +42,7 @@ public class GsonTest {
         Map<String, Object> result = gson.fromJson(userUrl, Map.class);
         System.out.println("GsonTest.testParseJson: result ==> " + result);
         Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.get("id"));
+        Assert.assertEquals(1.0, result.get("id"));
     }
 
     @org.junit.Test
