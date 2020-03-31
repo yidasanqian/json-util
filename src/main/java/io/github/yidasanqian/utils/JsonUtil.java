@@ -21,16 +21,18 @@ import java.util.logging.Logger;
  * @author yidasanqian
  */
 public class JsonUtil {
+    private static final Logger LOGGER = Logger.getLogger("JsonUtil");
+
 
     public static final String JACKSON_CLASS_TYPE = "jackson";
     public static final String GSON_CLASS_TYPE = "gson";
     public static final String FASTJSON_CLASS_TYPE = "fastjson";
-    private static final Logger log = Logger.getLogger("JsonUtil");
     private static final String CLASS_TYPE_OBJECT_MAPPER = "com.fasterxml.jackson.databind.ObjectMapper";
     private static final String CLASS_TYPE_GSON = "com.google.gson.Gson";
     private static final String CLASS_TYPE_FASTJSON = "com.alibaba.fastjson.JSON";
     public static String JSON_CLASS_TYPE = "json.class.type";
     public static Map<String, String> classTypeCache = new ConcurrentHashMap<>();
+
     private static String classType;
     private static ObjectMapper objectMapper;
     private static Gson gson;
@@ -44,7 +46,7 @@ public class JsonUtil {
                 properties.load(in);
                 jsonClassType = properties.getProperty(JSON_CLASS_TYPE);
             } else {
-                log.warning("未找到application.properties");
+                LOGGER.warning("未找到application.properties");
                 in = JsonUtil.class.getClassLoader().getResourceAsStream("application.yml");
                 if (in != null) {
                     Yaml yaml = new Yaml();
@@ -53,10 +55,10 @@ public class JsonUtil {
                     if (propsMap != null) {
                         jsonClassType = String.valueOf(propsMap.get("class-type"));
                     } else {
-                        log.warning("application.yml中未配置json.class-type");
+                        LOGGER.warning("application.yml中未配置json.class-type");
                     }
                 } else {
-                    log.warning("未找到application.yml");
+                    LOGGER.warning("未找到application.yml");
                 }
             }
 
@@ -66,26 +68,26 @@ public class JsonUtil {
 
             if (classType != null && classType.length() > 0) {
                 if (Class.forName(CLASS_TYPE_OBJECT_MAPPER) != null && classType.equals(JACKSON_CLASS_TYPE)) {
-                    log.info("use jackson lib");
+                    LOGGER.info("use jackson lib");
                 } else if (Class.forName(CLASS_TYPE_GSON) != null && classType.equals(GSON_CLASS_TYPE)) {
-                    log.info("use gson lib");
+                    LOGGER.info("use gson lib");
                 } else if (Class.forName(CLASS_TYPE_FASTJSON) != null && classType.equals(FASTJSON_CLASS_TYPE)) {
-                    log.info("use fastjson lib");
+                    LOGGER.info("use fastjson lib");
                 } else {
-                    log.severe("未找到jackson、gson或fastjson的依赖");
+                    LOGGER.severe("未找到jackson、gson或fastjson的依赖");
                     throw new RuntimeException("未找到jackson、gson或fastjson的依赖");
                 }
             } else if (Class.forName(CLASS_TYPE_OBJECT_MAPPER) != null) {
-                log.info("use jackson lib");
+                LOGGER.info("use jackson lib");
                 classType = "jackson";
             } else if (Class.forName(CLASS_TYPE_GSON) != null) {
-                log.info("use gson lib");
+                LOGGER.info("use gson lib");
                 classType = "gson";
             } else if (Class.forName(CLASS_TYPE_FASTJSON) != null) {
-                log.info("use fastjson lib");
+                LOGGER.info("use fastjson lib");
                 classType = "fastjson";
             } else {
-                log.severe("未找到jackson、gson或fastjson的依赖");
+                LOGGER.severe("未找到jackson、gson或fastjson的依赖");
                 throw new RuntimeException("未找到jackson、gson或fastjson的依赖");
             }
 
@@ -144,7 +146,7 @@ public class JsonUtil {
                         .create();
             }
         } catch (ClassNotFoundException | IOException e) {
-            log.severe(e.getMessage());
+            LOGGER.severe(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -283,7 +285,7 @@ public class JsonUtil {
     /**
      * 解析对象为Json字符串
      *
-     * @param object 要转换的对象
+     * @param object            要转换的对象
      * @param dateFormatPattern 日期格式，如"yyyy年MM月dd日 HH时mm分ss秒"
      * @return 返回对象的json字符串
      */
