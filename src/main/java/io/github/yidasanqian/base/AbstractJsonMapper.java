@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import io.github.yidasanqian.pojo.JsonEnum;
 import io.github.yidasanqian.utils.JsonUtil;
 import org.yaml.snakeyaml.Yaml;
 
@@ -29,6 +30,8 @@ public abstract class AbstractJsonMapper implements JsonMapper {
     public static String classType;
     public static ObjectMapper objectMapper;
     public static Gson gson;
+
+    public static JsonEnum jsonEnum = null;
 
     static {
         try {
@@ -89,7 +92,7 @@ public abstract class AbstractJsonMapper implements JsonMapper {
                 objectMapper = new ObjectMapper();
                 objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             }
-
+            jsonEnum = JsonEnum.getJsonMappeEnumr(classType);
             if (gson == null) {
                 gson = new GsonBuilder()
                         .setLenient()
@@ -141,5 +144,6 @@ public abstract class AbstractJsonMapper implements JsonMapper {
             throw new RuntimeException(e);
         }
     }
+
 
 }
