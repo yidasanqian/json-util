@@ -1,17 +1,18 @@
 package io.github.yidasanqian.utils;
 
 import io.github.yidasanqian.base.AbstractJsonMapper;
+import io.github.yidasanqian.pojo.JsonEnum;
 
 import java.lang.reflect.Type;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author yidasanqian
  */
 public class JsonUtil {
-    private static final Logger LOGGER = Logger.getLogger("JsonUtil");
-    private static AbstractJsonMapper mapper = AbstractJsonMapper.jsonEnum.getJsonMapper();
+
+    private static AbstractJsonMapper mapper = JsonEnum.getJsonMapper();
 
     /**
      * 解析json字符串到Map

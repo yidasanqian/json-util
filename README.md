@@ -4,7 +4,7 @@ Json Util Integrate Jackson、Gson And Fastjson
 json-util工具类整合了Jackson、Gson和Fastjson库并统一API。
 
 # Env
-- JDK7+
+- JDK8+
 
 # Feature
 统一调用API，形如`toXXX`。目前支持的转换的列表：
@@ -33,9 +33,9 @@ json:
 pom.xml
 ```
 <properties>
-    <jackson.version>2.9.0</jackson.version>
-    <gson.version>2.8.2</gson.version>
-    <fastjson.version>1.2.44</fastjson.version>
+    <jackson.version>2.10.1</jackson.version>
+    <gson.version>2.8.6</gson.version>
+    <fastjson.version>1.2.62</fastjson.version>
 </properties>
 <dependencies>
         <!-- use jackson lib-->

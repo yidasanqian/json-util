@@ -1,8 +1,14 @@
 package io.github.yidasanqian.base;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.*;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import io.github.yidasanqian.pojo.JsonEnum;
 import io.github.yidasanqian.utils.JsonUtil;
@@ -10,9 +16,12 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public abstract class AbstractJsonMapper implements JsonMapper {
@@ -31,7 +40,7 @@ public abstract class AbstractJsonMapper implements JsonMapper {
     public static ObjectMapper objectMapper;
     public static Gson gson;
 
-    public static JsonEnum jsonEnum = null;
+    public static JsonEnum jsonEnum;
 
     static {
         try {
@@ -87,10 +96,11 @@ public abstract class AbstractJsonMapper implements JsonMapper {
                 throw new RuntimeException("未找到jackson、gson或fastjson的依赖");
             }
 
-            // 属性值为NULL的，不序列化
+            // 禁止时间格式序列化为时间戳
             if (objectMapper == null) {
-                objectMapper = new ObjectMapper();
-                objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                objectMapper = new ObjectMapper()
+                        .findAndRegisterModules()
+                        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             }
             jsonEnum = JsonEnum.getJsonMappeEnumr(classType);
             if (gson == null) {
@@ -98,43 +108,37 @@ public abstract class AbstractJsonMapper implements JsonMapper {
                         .setLenient()
                         // 解决gson序列化时出现整型变为浮点型的问题
                         .registerTypeAdapter(new TypeToken<Map<Object, Object>>() {
-                                }.getType(),
-                                new JsonDeserializer<Map<Object, Object>>() {
-                                    @Override
-                                    public Map<Object, Object> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                                        Map<Object, Object> map = new LinkedHashMap<>();
-                                        JsonObject jsonObject = jsonElement.getAsJsonObject();
-                                        Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
-                                        for (Map.Entry<String, JsonElement> entry : entrySet) {
-                                            Object obj = entry.getValue();
-                                            if (obj instanceof JsonPrimitive) {
-                                                map.put(entry.getKey(), ((JsonPrimitive) obj).getAsString());
-                                            } else {
-                                                map.put(entry.getKey(), obj);
-                                            }
+                                }
+                                        .getType(), (JsonDeserializer<Map<Object, Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                                    Map<Object, Object> map = new LinkedHashMap<>();
+                                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                                    Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+                                    for (Map.Entry<String, JsonElement> entry : entrySet) {
+                                        Object obj = entry.getValue();
+                                        if (obj instanceof JsonPrimitive) {
+                                            map.put(entry.getKey(), ((JsonPrimitive) obj).getAsString());
+                                        } else {
+                                            map.put(entry.getKey(), obj);
                                         }
-                                        return map;
                                     }
+                                    return map;
                                 }
                         )
                         .registerTypeAdapter(new TypeToken<List<Object>>() {
-                                }.getType(),
-                                new JsonDeserializer<List<Object>>() {
-                                    @Override
-                                    public List<Object> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                                        List<Object> list = new LinkedList<>();
-                                        JsonArray jsonArray = jsonElement.getAsJsonArray();
-                                        for (int i = 0; i < jsonArray.size(); i++) {
-                                            if (jsonArray.get(i).isJsonObject()) {
-                                                JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                                                Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
-                                                list.addAll(entrySet);
-                                            } else if (jsonArray.get(i).isJsonPrimitive()) {
-                                                list.add(jsonArray.get(i));
-                                            }
+                                }
+                                        .getType(), (JsonDeserializer<List<Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                                    List<Object> list = new LinkedList<>();
+                                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                                    for (int i = 0; i < jsonArray.size(); i++) {
+                                        if (jsonArray.get(i).isJsonObject()) {
+                                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                                            Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+                                            list.addAll(entrySet);
+                                        } else if (jsonArray.get(i).isJsonPrimitive()) {
+                                            list.add(jsonArray.get(i));
                                         }
-                                        return list;
                                     }
+                                    return list;
                                 }
                         )
                         .create();
