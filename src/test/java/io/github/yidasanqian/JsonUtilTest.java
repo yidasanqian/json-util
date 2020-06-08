@@ -2,8 +2,8 @@ package io.github.yidasanqian;
 
 import io.github.yidasanqian.domain.Order;
 import io.github.yidasanqian.domain.User;
-import io.github.yidasanqian.utils.JsonUtil;
-import io.github.yidasanqian.utils.TypeReference;
+import io.github.yidasanqian.json.JsonUtil;
+import io.github.yidasanqian.json.TypeReference;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,9 +1,4 @@
-package io.github.yidasanqian.pojo;
-
-import io.github.yidasanqian.base.AbstractJsonMapper;
-import io.github.yidasanqian.base.FastJsonMapper;
-import io.github.yidasanqian.base.GsonMapper;
-import io.github.yidasanqian.base.JacksonJsonMapper;
+package io.github.yidasanqian.json;
 
 public enum  JsonEnum {
     FAST_JSON("fastjson"),

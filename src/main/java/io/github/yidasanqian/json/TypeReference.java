@@ -1,4 +1,4 @@
-package io.github.yidasanqian.utils;
+package io.github.yidasanqian.json;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

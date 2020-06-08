@@ -1,7 +1,4 @@
-package io.github.yidasanqian.utils;
-
-import io.github.yidasanqian.base.AbstractJsonMapper;
-import io.github.yidasanqian.pojo.JsonEnum;
+package io.github.yidasanqian.json;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -42,7 +39,7 @@ public class JsonUtil {
      * @return 返回List
      */
     public static <T> List<T> toList(String json, final Type type) {
-        return mapper.toList(json);
+        return mapper.toList(json, type);
     }
 
     /**

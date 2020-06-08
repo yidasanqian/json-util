@@ -1,4 +1,4 @@
-package io.github.yidasanqian.base;
+package io.github.yidasanqian.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -39,7 +39,7 @@ public class JacksonJsonMapper extends AbstractJsonMapper {
             }
         };
         try {
-            return objectMapper.readValue(json, typeReference);
+            return (List<T>) objectMapper.readValue(json, typeReference);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

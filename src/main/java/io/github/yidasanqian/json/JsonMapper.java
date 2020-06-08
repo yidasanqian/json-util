@@ -1,4 +1,4 @@
-package io.github.yidasanqian.base;
+package io.github.yidasanqian.json;
 
 import java.lang.reflect.Type;
 import java.util.List;

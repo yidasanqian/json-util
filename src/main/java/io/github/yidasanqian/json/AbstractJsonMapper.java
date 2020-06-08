@@ -1,4 +1,4 @@
-package io.github.yidasanqian.base;
+package io.github.yidasanqian.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -10,8 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
-import io.github.yidasanqian.pojo.JsonEnum;
-import io.github.yidasanqian.utils.JsonUtil;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;

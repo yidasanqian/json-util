@@ -1,4 +1,4 @@
-package io.github.yidasanqian.base;
+package io.github.yidasanqian.json;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

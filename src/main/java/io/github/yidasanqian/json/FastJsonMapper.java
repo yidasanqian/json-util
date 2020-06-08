@@ -1,4 +1,4 @@
-package io.github.yidasanqian.base;
+package io.github.yidasanqian.json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
