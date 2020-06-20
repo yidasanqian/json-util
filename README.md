@@ -1,4 +1,6 @@
 # json-util
+[![Maven Central](https://img.shields.io/badge/maven--central-1.2.0-blue.svg)](http://search.maven.org/#artifactdetails%7Cio.github.yidasanqian%7Cjson-util%7C1.2.0%7Cjar)
+
 Json Util Integrate Jackson、Gson And Fastjson
 
 json-util工具类整合了Jackson、Gson和Fastjson库并统一API。
@@ -30,7 +32,15 @@ json:
 支持自动查找用户引入的Json库(jackson, gson, fastjson)用来解析Json
 
 # Usage
-pom.xml
+maven
+```
+<dependency>
+    <groupId>io.github.yidasanqian</groupId>
+    <artifactId>json-util</artifactId>
+    <version>1.2.0</version>          
+</dependency>
+```
+choice one of jackson、gson and fastjson
 ```
 <properties>
     <jackson.version>2.10.1</jackson.version>

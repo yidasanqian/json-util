@@ -28,10 +28,9 @@
     </developers>
 
     <scm>
-        <url>https://github.com/yidasanqian/json-util</url>
         <connection>scm:git:git://github.com/yidasanqian/json-util.git</connection>
-        <developerConnection>scm:git:git@github.com:yidasanqian/json-util.git</developerConnection>
-        <tag>master</tag>
+        <developerConnection>scm:git:ssh://github.com:yidasanqian/json-util.git</developerConnection>
+        <url>https://github.com/yidasanqian/json-util/tree/master</url>
     </scm>
 
     <distributionManagement>
@@ -99,6 +98,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
@@ -148,6 +148,9 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
