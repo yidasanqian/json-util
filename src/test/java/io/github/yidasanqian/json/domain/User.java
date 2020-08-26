@@ -1,4 +1,4 @@
-package io.github.yidasanqian.domain;
+package io.github.yidasanqian.json.domain;
 
 
 import java.util.List;

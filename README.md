@@ -17,19 +17,6 @@ json-util工具类整合了Jackson、Gson和Fastjson库并统一API。
 
 List支持泛型，JsonString支持指定日期格式化，支持对象和Map的互相转换。
 
-支持从`application.properties`或`application.yml`中设置解析Json的库(jackson, gson, fastjson)。
-
-application.properties:
-```
-json.class.type=jackson
-```
-application.yml:
-```
-json:
-  class-type: gson
-```
-
-支持自动查找用户引入的Json库(jackson, gson, fastjson)用来解析Json
 
 # Usage
 maven
@@ -69,12 +56,13 @@ choice one of jackson、gson and fastjson
     </dependencies>
 ```
 
+初始化时可以指定使用的Json库：
+```
+JsonUtil.initJson(JsonEnum.FASTJSON);
+```
+JsonEnum的值有`JACKSON`, `FASTJSON`, `GSON`
 
-
-
-默认从`application.properties`或`application.yml`中读取配置的Json库，
-
-若未配置则自动查找用户引入的Json库(jackson, gson, fastjson)，若存在多个则默认使用Jackson作为json解析库。
+若未指定则自动查找用户引入的Json库(jackson, gson, fastjson)，若存在多个则默认使用Jackson作为json解析库。
 
 
 解析到`List`的例子：
@@ -86,4 +74,10 @@ choice one of jackson、gson and fastjson
  json = "[{"id": 1,"username": "yidasanqian"},{"id": 2,"username": "yidasanqian2"}]"
  TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
  List<User> result = JsonUtil.toList(json, typeReference.getType());
+```
+解析到`Map`的例子：
+```
+String json = "{"id":1, "username":"yidasanqian"}"
+TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {};
+Map result = JsonUtil.toMap(json, typeReference.getType());
 ```

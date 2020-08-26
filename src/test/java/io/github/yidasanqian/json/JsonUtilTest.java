@@ -1,9 +1,7 @@
-package io.github.yidasanqian;
+package io.github.yidasanqian.json;
 
-import io.github.yidasanqian.domain.Order;
-import io.github.yidasanqian.domain.User;
-import io.github.yidasanqian.json.JsonUtil;
-import io.github.yidasanqian.json.TypeReference;
+import io.github.yidasanqian.json.domain.Order;
+import io.github.yidasanqian.json.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,6 +15,11 @@ import java.util.Map;
 
 public class JsonUtilTest {
 
+
+    //@Before
+    public void setup() {
+        JsonUtil.initJson(JsonEnum.GSON);
+    }
 
     public String parseJson(String name) {
         String json = null;
@@ -47,6 +50,16 @@ public class JsonUtilTest {
         String json = parseJson(name);
         Map result = JsonUtil.toMap(json);
         System.out.println("JsonUtilTest.testToMap: result ==> " + result);
+    }
+
+    @Test
+    public void testToMapWithType() {
+        String name = "json/user-with-address.json";
+        String json = parseJson(name);
+        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {
+        };
+        Map result = JsonUtil.toMap(json, typeReference.getType());
+        System.out.println("JsonUtilTest.testToMapWithType: result ==> " + result);
     }
 
     @Test
@@ -111,7 +124,7 @@ public class JsonUtilTest {
         order.setId(1);
         order.setTraceNo(110);
         order.setUpdateAt(updateAt);
-        String orderJson = JsonUtil.toJsonWithDateFormat(order, "yyyy年MM月dd日 HH时mm分ss秒");
+        String orderJson = JsonUtil.toJsonString(order, "yyyy年MM月dd日 HH时mm分ss秒");
         System.out.println("JacksonTest.testDateFormat: orderJson ==> " + orderJson);
         Assert.assertNotNull(orderJson);
     }

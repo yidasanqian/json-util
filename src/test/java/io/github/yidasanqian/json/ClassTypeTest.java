@@ -1,4 +1,4 @@
-package io.github.yidasanqian;
+package io.github.yidasanqian.json;
 
 import org.junit.Test;
 

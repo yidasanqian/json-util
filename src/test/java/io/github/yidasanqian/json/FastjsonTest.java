@@ -1,9 +1,9 @@
-package io.github.yidasanqian;
+package io.github.yidasanqian.json;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.yidasanqian.domain.Order;
-import io.github.yidasanqian.domain.User;
+import io.github.yidasanqian.json.domain.Order;
+import io.github.yidasanqian.json.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

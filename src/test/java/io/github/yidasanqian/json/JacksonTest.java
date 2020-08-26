@@ -1,11 +1,11 @@
-package io.github.yidasanqian;
+package io.github.yidasanqian.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import io.github.yidasanqian.domain.Order;
-import io.github.yidasanqian.domain.User;
+import io.github.yidasanqian.json.domain.Order;
+import io.github.yidasanqian.json.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

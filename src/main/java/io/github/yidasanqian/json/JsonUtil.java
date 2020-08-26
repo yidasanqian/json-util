@@ -5,11 +5,27 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Json工具类
+ *
  * @author yidasanqian
  */
-public class JsonUtil {
+public final class JsonUtil {
 
-    private static AbstractJsonMapper mapper = JsonEnum.getJsonMapper();
+    private static AbstractJsonMapper jsonMapper;
+
+    static {
+        initJson(JsonEnum.JACKSON);
+    }
+
+
+    public static void initJson(JsonEnum jsonEnum) {
+        if (jsonEnum == null) {
+            throw new NullPointerException("jsonEnum must be not null");
+        }
+
+        jsonMapper = AbstractJsonMapper.initJsonMapper(jsonEnum);
+    }
+
 
     /**
      * 解析json字符串到Map
@@ -17,8 +33,19 @@ public class JsonUtil {
      * @param json 要解析的json字符串
      * @return 返回Map
      */
-    public static Map toMap(String json) {
-        return mapper.toMap(json);
+    public static <K, V> Map<K, V> toMap(String json) {
+        return jsonMapper.toMap(json);
+    }
+
+    /**
+     * 按指定的Type解析json字符串到Map
+     *
+     * @param json 要解析的json字符串
+     * @param type {@link Type}
+     * @return 返回Map
+     */
+    public static <K, V> Map<K, V> toMap(String json, Type type) {
+        return jsonMapper.toMap(json, type);
     }
 
     /**
@@ -27,8 +54,8 @@ public class JsonUtil {
      * @param json 要解析的json字符串
      * @return 返回List
      */
-    public static List toList(String json) {
-        return mapper.toList(json);
+    public static <T> List<T> toList(String json) {
+        return jsonMapper.toList(json);
     }
 
     /**
@@ -38,8 +65,8 @@ public class JsonUtil {
      * @param type {@link Type}
      * @return 返回List
      */
-    public static <T> List<T> toList(String json, final Type type) {
-        return mapper.toList(json, type);
+    public static <T> List<T> toList(String json, Type type) {
+        return jsonMapper.toList(json, type);
     }
 
     /**
@@ -49,7 +76,7 @@ public class JsonUtil {
      * @return 返回对象的json字符串
      */
     public static String toJsonString(Object object) {
-        return mapper.toJsonString(object);
+        return jsonMapper.toJsonString(object);
     }
 
     /**
@@ -59,8 +86,8 @@ public class JsonUtil {
      * @param dateFormatPattern 日期格式，如"yyyy年MM月dd日 HH时mm分ss秒"
      * @return 返回对象的json字符串
      */
-    public static String toJsonWithDateFormat(Object object, String dateFormatPattern) {
-        return mapper.toJsonWithDateFormat(object, dateFormatPattern);
+    public static String toJsonString(Object object, String dateFormatPattern) {
+        return jsonMapper.toJsonString(object, dateFormatPattern);
     }
 
     /**
@@ -72,7 +99,7 @@ public class JsonUtil {
      * @return 返回解析后的对象
      */
     public static <T> T toPojo(String json, Class<T> valueType) {
-        return mapper.toPojo(json, valueType);
+        return jsonMapper.toObject(json, valueType);
     }
 
     /**
@@ -81,8 +108,8 @@ public class JsonUtil {
      * @param fromValue 与Map可兼容的对象
      * @return 返回Map对象
      */
-    public static Map convertToMap(Object fromValue) {
-        return mapper.convertToMap(fromValue);
+    public static <K, V> Map<K, V> convertToMap(Object fromValue) {
+        return jsonMapper.objectToMap(fromValue);
     }
 
     /**
@@ -94,6 +121,8 @@ public class JsonUtil {
      * @return 返回Map转换得到的对象
      */
     public static <T> T convertFromMap(Map fromMap, Class<T> toValueType) {
-        return mapper.convertFromMap(fromMap, toValueType);
+        return jsonMapper.mapToObject(fromMap, toValueType);
     }
+
+
 }
