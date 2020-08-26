@@ -11,12 +11,7 @@ import java.util.Map;
  */
 public final class JsonUtil {
 
-    private static AbstractJsonMapper jsonMapper;
-
-    static {
-        initJson(JsonEnum.JACKSON);
-    }
-
+    private static AbstractJsonMapper jsonMapper = AbstractJsonMapper.initJsonMapper(JsonEnum.JACKSON);
 
     public static void initJson(JsonEnum jsonEnum) {
         if (jsonEnum == null) {
@@ -41,7 +36,7 @@ public final class JsonUtil {
      * 按指定的Type解析json字符串到Map
      *
      * @param json 要解析的json字符串
-     * @param type {@link Type}
+     * @param type {@link TypeReference#getType()}
      * @return 返回Map
      */
     public static <K, V> Map<K, V> toMap(String json, Type type) {
@@ -62,7 +57,7 @@ public final class JsonUtil {
      * 按指定的Type解析json字符串到List
      *
      * @param json 要解析的json字符串
-     * @param type {@link Type}
+     * @param type {@link TypeReference#getType()}
      * @return 返回List
      */
     public static <T> List<T> toList(String json, Type type) {

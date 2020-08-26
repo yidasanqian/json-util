@@ -1,5 +1,5 @@
 # json-util
-[![Maven Central](https://img.shields.io/badge/maven--central-1.2.0-blue.svg)](http://search.maven.org/#artifactdetails%7Cio.github.yidasanqian%7Cjson-util%7C1.2.0%7Cjar)
+[![Maven Central](https://img.shields.io/badge/maven--central-2.0.0-blue.svg)](http://search.maven.org/#artifactdetails%7Cio.github.yidasanqian%7Cjson-util%7C2.0.0%7Cjar)
 
 Json Util Integrate Jackson、Gson And Fastjson
 
@@ -24,15 +24,16 @@ maven
 <dependency>
     <groupId>io.github.yidasanqian</groupId>
     <artifactId>json-util</artifactId>
-    <version>1.2.0</version>          
+    <version>2.0.0</version>          
 </dependency>
 ```
 choice one of jackson、gson and fastjson
 ```
+
 <properties>
-    <jackson.version>2.10.1</jackson.version>
-    <gson.version>2.8.6</gson.version>
-    <fastjson.version>1.2.62</fastjson.version>
+    <jackson.version>specify version</jackson.version>
+    <gson.version>specify version</gson.version>
+    <fastjson.version>specify version</fastjson.version>
 </properties>
 <dependencies>
         <!-- use jackson lib-->

@@ -3,6 +3,7 @@ package io.github.yidasanqian.json;
 import io.github.yidasanqian.json.domain.Order;
 import io.github.yidasanqian.json.domain.User;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class JsonUtilTest {
 
 
-    //@Before
+    @Before
     public void setup() {
         JsonUtil.initJson(JsonEnum.GSON);
     }
@@ -48,7 +49,7 @@ public class JsonUtilTest {
     public void testToMap() {
         String name = "json/user-with-address.json";
         String json = parseJson(name);
-        Map result = JsonUtil.toMap(json);
+        Map<String, Object> result = JsonUtil.toMap(json);
         System.out.println("JsonUtilTest.testToMap: result ==> " + result);
     }
 

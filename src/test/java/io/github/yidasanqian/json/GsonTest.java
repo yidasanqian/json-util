@@ -2,6 +2,11 @@ package io.github.yidasanqian.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import io.github.yidasanqian.json.domain.Order;
 import io.github.yidasanqian.json.domain.User;
@@ -11,13 +16,15 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GsonTest {
 
@@ -27,7 +34,41 @@ public class GsonTest {
     @Before
     public void setup() throws FileNotFoundException {
         gson = new GsonBuilder()
-                .setLenient()
+                // 解决Gson序列化时出现整型变为浮点型的问题
+                .registerTypeAdapter(new TypeToken<Map<Object, Object>>() {
+                        }.getType(),
+                        (JsonDeserializer<Map<Object, Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                            Map<Object, Object> map = new LinkedHashMap<>();
+                            JsonObject jsonObject = jsonElement.getAsJsonObject();
+                            Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+                            for (Map.Entry<String, JsonElement> entry : entrySet) {
+                                Object obj = entry.getValue();
+                                if (obj instanceof JsonPrimitive) {
+                                    map.put(entry.getKey(), ((JsonPrimitive) obj).getAsString());
+                                } else {
+                                    map.put(entry.getKey(), obj);
+                                }
+                            }
+                            return map;
+                        }
+                )
+                .registerTypeAdapter(new TypeToken<List<Object>>() {
+                        }.getType(),
+                        (JsonDeserializer<List<Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                            List<Object> list = new LinkedList<>();
+                            JsonArray jsonArray = jsonElement.getAsJsonArray();
+                            for (int i = 0; i < jsonArray.size(); i++) {
+                                if (jsonArray.get(i).isJsonObject()) {
+                                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                                    Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+                                    list.addAll(entrySet);
+                                } else if (jsonArray.get(i).isJsonPrimitive()) {
+                                    list.add(jsonArray.get(i));
+                                }
+                            }
+                            return list;
+                        }
+                )
                 .create();
 
         userUrl = new FileReader(getClass().getClassLoader().getResource("json/user.json").getFile());
@@ -37,15 +78,17 @@ public class GsonTest {
         userOrdersUrl = new FileReader(getClass().getClassLoader().getResource("json/user-with-orders.json").getFile());
     }
 
-    @org.junit.Test
-    public void testJsonToMap() throws IOException {
-        Map<String, Object> result = gson.fromJson(userUrl, Map.class);
+    @Test
+    public void testJsonToMap() {
+        TypeToken<Map<Object, Object>> typeToken = new TypeToken<Map<Object, Object>>() {
+        };
+        Map<String, Object> result = gson.fromJson(userUrl, typeToken.getType());
         System.out.println("GsonTest.testParseJson: result ==> " + result);
         Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.get("id"));
+        Assert.assertEquals("1", result.get("id"));
     }
 
-    @org.junit.Test
+    @Test
     public void testJsonToList() {
         List result = gson.fromJson(arrayUrl, List.class);
         System.out.println("GsonTest.testJsonToList: result ==> " + result);
@@ -55,7 +98,7 @@ public class GsonTest {
     /**
      * gson解析数值类型会解析成小数，需要使用TypeToken指定泛型解决
      */
-    @org.junit.Test
+    @Test
     public void testJsonToList2() {
         TypeToken<List<Integer>> typeToken = new TypeToken<List<Integer>>() {
         };
@@ -71,7 +114,7 @@ public class GsonTest {
         Assert.assertNotNull(result);
     }
 
-    @org.junit.Test
+    @Test
     public void testJsonToGenerifyList() {
         TypeToken<List<User>> typeToken = new TypeToken<List<User>>() {
         };
@@ -84,14 +127,14 @@ public class GsonTest {
         }
     }
 
-    @org.junit.Test
+    @Test
     public void testJsonToPojo() {
         User user = gson.fromJson(userUrl, User.class);
         Assert.assertNotNull(user);
         Assert.assertEquals(1, user.getId());
     }
 
-    @org.junit.Test
+    @Test
     public void testPojoToJson() {
         User user = new User();
         user.setId(1);
@@ -101,7 +144,7 @@ public class GsonTest {
         Assert.assertNotNull(userJson);
     }
 
-    @org.junit.Test
+    @Test
     public void testJsonToPojoWithReference() {
         User user = gson.fromJson(userAddressUrl, User.class);
         System.out.println("GsonTest.testJsonToPojoWithReference: user ==> " + user);
@@ -109,7 +152,7 @@ public class GsonTest {
         Assert.assertEquals(1, user.getId());
     }
 
-    @org.junit.Test
+    @Test
     public void testJsonToPojoWithList() {
         User user = gson.fromJson(userOrdersUrl, User.class);
         System.out.println("GsonTest.testJsonToPojoWithReference: orders ==> " + user.getOrders());

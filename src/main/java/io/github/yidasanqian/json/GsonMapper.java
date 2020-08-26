@@ -25,8 +25,8 @@ public class GsonMapper extends AbstractJsonMapper {
         gsonBuilder = new GsonBuilder()
                 // 解决Gson序列化时出现整型变为浮点型的问题
                 .registerTypeAdapter(new TypeToken<Map<Object, Object>>() {
-                        }
-                                .getType(), (JsonDeserializer<Map<Object, Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                        }.getType(),
+                        (JsonDeserializer<Map<Object, Object>>) (jsonElement, type, jsonDeserializationContext) -> {
                             Map<Object, Object> map = new LinkedHashMap<>();
                             JsonObject jsonObject = jsonElement.getAsJsonObject();
                             Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
@@ -42,8 +42,8 @@ public class GsonMapper extends AbstractJsonMapper {
                         }
                 )
                 .registerTypeAdapter(new TypeToken<List<Object>>() {
-                        }
-                                .getType(), (JsonDeserializer<List<Object>>) (jsonElement, type, jsonDeserializationContext) -> {
+                        }.getType(),
+                        (JsonDeserializer<List<Object>>) (jsonElement, type, jsonDeserializationContext) -> {
                             List<Object> list = new LinkedList<>();
                             JsonArray jsonArray = jsonElement.getAsJsonArray();
                             for (int i = 0; i < jsonArray.size(); i++) {
