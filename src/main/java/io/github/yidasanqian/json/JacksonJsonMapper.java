@@ -59,7 +59,7 @@ public class JacksonJsonMapper extends AbstractJsonMapper {
 
     @Override
     public <T> List<T> toList(String json, Type type) {
-        TypeReference<T> typeReference = new TypeReference<T>() {
+        TypeReference<List<T>> typeReference = new TypeReference<List<T>>() {
             @Override
             public Type getType() {
                 return type;
@@ -83,9 +83,9 @@ public class JacksonJsonMapper extends AbstractJsonMapper {
 
     @Override
     public String toJsonString(Object object, String dateFormatPattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormatPattern);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatPattern);
         try {
-            return objectMapper.writer(sdf).writeValueAsString(object);
+            return objectMapper.writer(dateFormat).writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

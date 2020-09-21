@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class JsonUtilTest {
 
     @Before
     public void setup() {
-        JsonUtil.initJson(JsonEnum.GSON);
+        // JsonUtil.initJson(JsonEnum.GSON);
     }
 
     public String parseJson(String name) {
@@ -128,5 +129,20 @@ public class JsonUtilTest {
         String orderJson = JsonUtil.toJsonString(order, "yyyy年MM月dd日 HH时mm分ss秒");
         System.out.println("JacksonTest.testDateFormat: orderJson ==> " + orderJson);
         Assert.assertNotNull(orderJson);
+    }
+
+    @Test
+    public void testLocalDateFormat() {
+        Date updateAt = new Date();
+        LocalDateTime modifiedAt = LocalDateTime.now();
+        System.out.println("JacksonTest.testLocalDateFormat: updateAt ==> " + updateAt);
+        System.out.println("JacksonTest.testLocalDateFormat: modifiedAt ==> " + modifiedAt);
+        Order order = new Order();
+        order.setId(1);
+        order.setTraceNo(110);
+        order.setUpdateAt(updateAt);
+        order.setModifiedAt(modifiedAt);
+        String orderJson = JsonUtil.toJsonString(order, "yyyy年MM月dd日 HH时mm分ss秒");
+        System.out.println("JacksonTest.testLocalDateFormat: orderJson ==> " + orderJson);
     }
 }

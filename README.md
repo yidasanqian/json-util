@@ -27,7 +27,7 @@ maven
     <version>2.0.0</version>          
 </dependency>
 ```
-choice one of jackson、gson and fastjson
+选择 jackson、gson and fastjson 其中之一引入 pom.xml：
 ```
 
 <properties>
@@ -39,7 +39,7 @@ choice one of jackson、gson and fastjson
         <!-- use jackson lib-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <artifactId>jackson-databind-jsr310</artifactId>
             <version>${jackson.version}</version>          
         </dependency>
          <!-- or use gson lib-->

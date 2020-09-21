@@ -1,5 +1,8 @@
 package io.github.yidasanqian.json.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Order {
@@ -11,6 +14,9 @@ public class Order {
     private String createAt;
 
     private Date updateAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime modifiedAt;
 
     public long getId() {
         return id;
@@ -44,6 +50,14 @@ public class Order {
         this.updateAt = updateAt;
     }
 
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -51,6 +65,7 @@ public class Order {
                 ", traceNo=" + traceNo +
                 ", createAt='" + createAt + '\'' +
                 ", updateAt=" + updateAt +
+                ", modifiedAt=" + modifiedAt +
                 '}';
     }
 }
