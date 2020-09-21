@@ -1,5 +1,5 @@
 # json-util
-[![Maven Central](https://img.shields.io/badge/maven--central-2.0.0-blue.svg)](http://search.maven.org/#artifactdetails%7Cio.github.yidasanqian%7Cjson-util%7C2.0.0%7Cjar)
+[![Maven Central](https://img.shields.io/badge/maven--central-2.0.1-blue.svg)](http://search.maven.org/#artifactdetails%7Cio.github.yidasanqian%7Cjson-util%7C2.0.1%7Cjar)
 
 Json Util Integrate Jackson、Gson And Fastjson
 
@@ -24,7 +24,7 @@ maven
 <dependency>
     <groupId>io.github.yidasanqian</groupId>
     <artifactId>json-util</artifactId>
-    <version>2.0.0</version>          
+    <version>2.0.1</version>          
 </dependency>
 ```
 选择 jackson、gson and fastjson 其中之一引入 pom.xml：
